@@ -2,7 +2,8 @@ const express = require("express");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/userRoute");
 const cors = require("cors");
-const clientRoute = require('./routes/clientRoute')
+const clientRoute = require("./routes/clientRoute");
+const projectRoutes = require("./routes/projectRoute");
 
 const app = express();
 
@@ -12,9 +13,9 @@ const port = 3000;
 
 connectDB();
 
-
 app.use("/api/", authRoutes);
 app.use("/api/", clientRoute);
+app.use("/api/", projectRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
