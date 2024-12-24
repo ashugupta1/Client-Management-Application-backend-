@@ -19,6 +19,7 @@ const projectSchema = new mongoose.Schema({
   quantity: { type: Number, required: true },
   rate: { type: Number, required: true },
   price: { type: Number, required: true },
+  total: { type: Number, required: true },
 });
 
 const Project = mongoose.model("Project", projectSchema);

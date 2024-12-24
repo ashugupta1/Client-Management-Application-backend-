@@ -3,12 +3,12 @@ const router = express.Router();
 const Project = require("../models/projectModel");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
-const { v4: uuidv4 } = require('uuid'); // Using UUID for random unique string
+const { v4: uuidv4 } = require("uuid"); // Using UUID for random unique string
 
 // Function to generate a unique order number
 function generateOrderNumber() {
   const date = new Date();
-  const formattedDate = date.toISOString().split('T')[0]; // Get date in YYYY-MM-DD format
+  const formattedDate = date.toISOString().split("T")[0]; // Get date in YYYY-MM-DD format
 
   // Generate a random 4-digit number (or use an auto-increment approach if preferred)
   const randomNumber = Math.floor(1000 + Math.random() * 9000);
