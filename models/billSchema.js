@@ -1,18 +1,15 @@
-const mongoose = required("mongoose");
+const mongoose = require("mongoose");
 
-const billSchama = new Schama({
-  billedQuantity: {
-    type: Number,
-    required: true,
-  },
-  time: {
-    type: Number,
-    default: new Date().getTime(),
-  },
-  billNumber: {
-    type
-  }
+const billSchema = new mongoose.Schema({
+  date: { type: String, required: true },
+  billNumber: { type: String, required: true, unique: true },
+  billedTo: { type: String, required: true },
+  projectName: { type: String, required: true },
+  description: { type: String, required: false },
+  quantity: { type: Number, required: true },
+  rate: { type: Number, required: true },
+  total: { type: Number, required: true },
+  billedQuantity: { type: Number, required: true },
 });
 
-const Bill = mongoose.model("Bill", billSchama);
-module.exports = Bill;
+module.exports = mongoose.model("Bill", billSchema);

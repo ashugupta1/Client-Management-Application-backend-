@@ -4,7 +4,7 @@ const authRoutes = require("./routes/userRoute");
 const cors = require("cors");
 const clientRoute = require("./routes/clientRoute");
 const projectRoutes = require("./routes/projectRoute");
-const billRoute = require('./routes/billRoute')
+const billRoute = require("./routes/billRoute");
 
 const app = express();
 
@@ -15,6 +15,7 @@ const port = 3000;
 
 connectDB();
 
+app.use("/api/bills", billRoute);
 app.use("/api/", authRoutes);
 app.use("/api/", clientRoute);
 app.use("/api/", projectRoutes);
@@ -26,7 +27,7 @@ app.get("/", (req, res) => {
   res.send(`${random}`);
 });
 
-app.use("/api/", billRoute)
+app.use("/api/", billRoute);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
