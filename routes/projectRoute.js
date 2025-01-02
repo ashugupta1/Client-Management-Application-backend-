@@ -20,7 +20,7 @@ function generateOrderNumber() {
 router.post("/projects", async (req, res) => {
   try {
     const orderNumber = generateOrderNumber();
-    console.log("Request Body:", req.body);
+    // console.log("Request Body:", req.body);
 
     // const project = new Project(req.body);
     // console.log("New Project:", project);
@@ -95,7 +95,7 @@ router.put("/projects/:id", upload.single("file"), async (req, res) => {
       return res.status(404).json({ message: "Project not found" });
     }
 
-    console.log("Updated Project:", updatedProject);
+    // console.log("Updated Project:", updatedProject);
     res.json({
       message: "Project updated successfully",
       project: updatedProject,

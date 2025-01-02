@@ -10,6 +10,10 @@ const billSchema = new mongoose.Schema({
   rate: { type: Number, required: true },
   total: { type: Number, required: true },
   billedQuantity: { type: Number, required: true },
+  tds: { type: Number, required: true },
+  totalTax: { type: Number, required: true },
+  balanceAfterTax: { type: Number, required: true },
+  totalTax: { type: Number, required: true },
 });
 
 module.exports = mongoose.model("Bill", billSchema);
