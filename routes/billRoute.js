@@ -8,13 +8,31 @@ router.post("/", async (req, res) => {
   try {
     // Extract and validate input values from request body
     console.log(req.body);
-    const { billedQuantity, rate, TDS, CGST, SGST, IGST } = req.body;
+    const { billedQuantity, quantity, rate, tds, cgst, sgst, igst } = req.body;
 
-    const quantity = Number(billedQuantity);
+    const billedQuantityinNum = Number(billedQuantity);
 
-    console.log(quantity);
+    // console.log(quantity);
+    // console.log(rate);
+    // console.log(tds);
+    // console.log(cgst);
+    // console.log(sgst);
+    // console.log(igst);
 
-    console.log({ quantity, rate, TDS, CGST, SGST, IGST });
+    const totalAmount = rate * billedQuantityinNum;
+    const tdsInRupees = (totalAmount * tds) / 100;
+    const totalTax =
+      (totalAmount * sgst) / 100 +
+      (totalAmount * cgst) / 100 +
+      (totalAmount * igst) / 100;
+    const balanceBeforeTax = totalAmount;
+    const balanceAfterTax = totalAmount + totalTax;
+
+    // console.log("quntity " + quantity);
+
+    // console.log(
+    //   `Total Amount: ${totalAmount}, Total Tax: ${totalTax}, TDS in Rupees: ${tdsInRupees}, Balance Before Tax: ${balanceBeforeTax}, Balance After Tax: ${balanceAfterTax}`
+    // );
 
     if (!quantity || !rate) {
       return res
@@ -22,34 +40,23 @@ router.post("/", async (req, res) => {
         .json({ message: "Quantity and rate are required." });
     }
 
-    // Ensure numeric values for calculations
-    const qty = parseFloat(quantity) || 0;
-    const rt = parseFloat(rate) || 0;
-    const tds = parseFloat(TDS) || 0;
-    const cgst = parseFloat(CGST) || 0;
-    const sgst = parseFloat(SGST) || 0;
-    const igst = parseFloat(IGST) || 0;
-
-    // Perform calculations
-    const totalAmount = qty * rt; // Calculate total amount
-    const tdsInRupees = (totalAmount * tds) / 100; // Calculate TDS in rupees
-    const totalTax =
-      (totalAmount * cgst) / 100 +
-      (totalAmount * sgst) / 100 +
-      (totalAmount * igst) / 100; // Calculate total tax
-    const balanceBeforeTax = totalAmount - tdsInRupees; // Balance before tax
-    const balanceAfterTax = balanceBeforeTax + totalTax; // Balance after tax
-
-    // Construct new bill object with calculated values
-    const newBill = new Bill({
-      ...req.body, // Spread the original input fields
+    console.log("Request Body:", req.body);
+    console.log("Calculated Values:", {
       totalAmount,
-      tdsInRupees,
+      tds: tdsInRupees,
       totalTax,
       balanceBeforeTax,
       balanceAfterTax,
     });
 
+    const newBill = new Bill({
+      ...req.body, // Spread the original input fields
+      totalAmount,
+      tds: tdsInRupees,
+      totalTax,
+      balanceBeforeTax,
+      balanceAfterTax,
+    });
     // Save to the database
     await newBill.save();
     res
