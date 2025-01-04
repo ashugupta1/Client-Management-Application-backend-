@@ -60,14 +60,14 @@ const mongoose = require("mongoose");
 router.put("/projects/:id", upload.single("file"), async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("Project ID:", id);
+    // console.log("Project ID:", id);
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid project ID" });
     }
 
     const updatedData = req.body;
-    console.log("Updated Data:", updatedData);
+    // console.log("Updated Data:", updatedData);
 
     if (req.file) {
       console.log("Uploaded File:", req.file);

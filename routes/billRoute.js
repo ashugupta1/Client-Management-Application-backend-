@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     // Extract and validate input values from request body
-    console.log(req.body);
+    console.log("post req");
     const { billedQuantity, quantity, rate, tds, cgst, sgst, igst } = req.body;
 
     const billedQuantityinNum = Number(billedQuantity);
@@ -40,14 +40,14 @@ router.post("/", async (req, res) => {
         .json({ message: "Quantity and rate are required." });
     }
 
-    console.log("Request Body:", req.body);
-    console.log("Calculated Values:", {
-      totalAmount,
-      tds: tdsInRupees,
-      totalTax,
-      balanceBeforeTax,
-      balanceAfterTax,
-    });
+    // console.log("Request Body:", req.body);
+    // console.log("Calculated Values:", {
+    //   totalAmount,
+    //   tds: tdsInRupees,
+    //   totalTax,
+    //   balanceBeforeTax,
+    //   balanceAfterTax,
+    // });
 
     const newBill = new Bill({
       ...req.body, // Spread the original input fields
@@ -85,10 +85,51 @@ router.get("/", async (req, res) => {
 
 // Update a bill by ID
 router.put("/:id", async (req, res) => {
+  console.log("put req");
+  console.log(req.body);
+  const { billedQuantity, quantity, rate, tds, cgst, sgst, igst } = req.body;
+
+  const billedQuantityinNum = Number(billedQuantity);
+
+  // console.log(quantity);
+  // console.log(rate);
+  // console.log(tds);
+  // console.log(cgst);
+  // console.log(sgst);
+  // console.log(igst);
+
+  const totalAmount = rate * billedQuantityinNum;
+  const tdsInRupees = (totalAmount * tds) / 100;
+  const totalTax =
+    (totalAmount * sgst) / 100 +
+    (totalAmount * cgst) / 100 +
+    (totalAmount * igst) / 100;
+  const balanceBeforeTax = totalAmount - tdsInRupees;
+  const balanceAfterTax = totalAmount + totalTax;
+
+  // console.log("quntity " + quantity);
+
+  console.log(
+    `Total Amount: ${totalAmount}, Total Tax: ${totalTax}, TDS in Rupees: ${tdsInRupees}, Balance Before Tax: ${balanceBeforeTax}, Balance After Tax: ${balanceAfterTax}`
+  );
+
+  if (!quantity || !rate) {
+    return res.status(400).json({ message: "Quantity and rate are required." });
+  }
+
   try {
-    const updatedBill = await Bill.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const updatedBill = await Bill.findByIdAndUpdate(
+      req.params.id,
+      {
+        ...req.body,
+        totalAmount,
+        tdsInRupees,
+        totalTax,
+        balanceBeforeTax,
+        balanceAfterTax,
+      },
+      { new: true } // Return the updated document
+    );
     if (!updatedBill) {
       return res.status(404).json({ message: "Bill not found" });
     }
