@@ -5,6 +5,7 @@ const cors = require("cors");
 const clientRoute = require("./routes/clientRoute");
 const projectRoutes = require("./routes/projectRoute");
 const billRoute = require("./routes/billRoute");
+const expenseRoute = require("./routes/expenseRoute")
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.use("/api/bills", billRoute);
 app.use("/api/", authRoutes);
 app.use("/api/", clientRoute);
 app.use("/api/", projectRoutes);
+// app.use("/api/", billRoute);
+app.use("/api/", expenseRoute);
 
 const random = Math.floor(1000 + Math.random() * 1000);
 console.log(random);
@@ -27,7 +30,6 @@ app.get("/", (req, res) => {
   res.send(`${random}`);
 });
 
-app.use("/api/", billRoute);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
