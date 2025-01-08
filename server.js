@@ -10,7 +10,7 @@ const expenseRoute = require("./routes/expenseRoute")
 const app = express();
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json());8  
 app.use(express.urlencoded({ extended: true }));
 const port = 3000;
 

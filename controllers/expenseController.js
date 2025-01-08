@@ -14,16 +14,49 @@ const getAllExpenses = async (req, res) => {
 
 // Add expense
 const addExpense = async (req, res) => {
+  // Validate request body
+  const {
+    User,
+    Date,
+    ProjectName,
+    Expenses,
+    Ammount,
+    MOP,
+    ReferenceId,
+    File,
+    Remark,
+  } = req.body;
+
+  if (
+    !User ||
+    !Date ||
+    !ProjectName ||
+    !Expenses ||
+    !Ammount ||
+    !MOP ||
+    !ReferenceId
+  ) {
+    return res.status(400).json({
+      message:
+        "Missing required fields: User, Date, ProjectName, Expenses, Ammount, MOP, ReferenceId",
+    });
+  }
+
   try {
+    console.log(req.body);
     const newExpense = new expenseModel({ ...req.body });
+    // console.log("Creating new expense:", newExpense);
     await newExpense.save();
-    res
-      .status(201)
-      .json({ message: "Expense created successfully", expense: newExpense });
+    res.status(201).json({
+      message: "Expense created successfully",
+      expense: newExpense,
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error creating expense", error: error.message });
+    console.error("Error creating expense:", error);
+    res.status(500).json({
+      message: "Error creating expense",
+      error: error.message,
+    });
   }
 };
 
