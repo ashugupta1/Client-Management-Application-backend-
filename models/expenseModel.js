@@ -53,6 +53,25 @@ const expenseSchema = new mongoose.Schema({
     // required : true,
     trim: true,
   },
+
+  Rows: [
+    {
+      Employee: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      Reason: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      Amount: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
 });
 
 const Expense = mongoose.model("Expense", expenseSchema);

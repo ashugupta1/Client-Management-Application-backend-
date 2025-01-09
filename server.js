@@ -5,12 +5,12 @@ const cors = require("cors");
 const clientRoute = require("./routes/clientRoute");
 const projectRoutes = require("./routes/projectRoute");
 const billRoute = require("./routes/billRoute");
-const expenseRoute = require("./routes/expenseRoute")
+const expenseRoute = require("./routes/expenseRoute");
 
 const app = express();
 
 app.use(cors());
-app.use(express.json());8  
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const port = 3000;
 
@@ -29,7 +29,6 @@ console.log(random);
 app.get("/", (req, res) => {
   res.send(`${random}`);
 });
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
