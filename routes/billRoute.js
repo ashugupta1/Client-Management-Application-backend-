@@ -8,7 +8,8 @@ router.post("/", async (req, res) => {
   try {
     // Extract and validate input values from request body
     console.log("post req");
-    const { billedQuantity, quantity, rate, tds, cgst, sgst, igst } = req.body;
+    const { billedQuantity, quantity, rate, tds, cgst, sgst, igst, total } =
+      req.body;
 
     const billedQuantityinNum = Number(billedQuantity);
 
@@ -25,8 +26,9 @@ router.post("/", async (req, res) => {
       (totalAmount * sgst) / 100 +
       (totalAmount * cgst) / 100 +
       (totalAmount * igst) / 100;
-    const balanceBeforeTax = totalAmount;
+    const balanceBeforeTax = totalAmount - tdsInRupees;
     const balanceAfterTax = totalAmount + totalTax;
+    // const Total = (quantity - billedQuantity) * rate;
 
     // console.log("quntity " + quantity);
 
@@ -56,6 +58,7 @@ router.post("/", async (req, res) => {
       totalTax,
       balanceBeforeTax,
       balanceAfterTax,
+      // total: Total,
     });
     // Save to the database
     await newBill.save();
