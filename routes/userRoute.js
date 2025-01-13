@@ -3,13 +3,13 @@ const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const secret = "Ashu_Gupta"
+const secret = "Ashu_Gupta";
 
 const router = express.Router();
 
 // Register Route
 router.post("/signup", async (req, res) => {
-  const {email, password } = req.body;
+  const { email, password } = req.body;
 
   // Input Validation
   if (!email || !password) {
@@ -24,7 +24,7 @@ router.post("/signup", async (req, res) => {
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({email, password: hashedPassword });
+    const user = await User.create({ email, password: hashedPassword });
 
     if (user) {
       res.status(201).json({

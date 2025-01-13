@@ -22,6 +22,10 @@ router.post("/", async (req, res) => {
 
     const totalAmount = rate * billedQuantityinNum;
     const tdsInRupees = (totalAmount * tds) / 100;
+    const cgstInRupees = (totalAmount * cgst) / 100;
+    const sgstInRupees = (totalAmount * sgst) / 100;
+    const igstInRupees = (totalAmount * igst) / 100;
+
     const totalTax =
       (totalAmount * sgst) / 100 +
       (totalAmount * cgst) / 100 +
@@ -55,6 +59,9 @@ router.post("/", async (req, res) => {
       ...req.body, // Spread the original input fields
       totalAmount,
       tds: tdsInRupees,
+      sgst: sgstInRupees,
+      cgst: cgstInRupees,
+      igst: igstInRupees,
       totalTax,
       balanceBeforeTax,
       balanceAfterTax,
@@ -103,6 +110,9 @@ router.put("/:id", async (req, res) => {
 
   const totalAmount = rate * billedQuantityinNum;
   const tdsInRupees = (totalAmount * tds) / 100;
+  const cgstInRupees = (totalAmount * cgst) / 100;
+  const sgstInRupees = (totalAmount * sgst) / 100;
+  const igstInRupees = (totalAmount * igst) / 100;
   const totalTax =
     (totalAmount * sgst) / 100 +
     (totalAmount * cgst) / 100 +
@@ -127,6 +137,9 @@ router.put("/:id", async (req, res) => {
         ...req.body,
         totalAmount,
         tdsInRupees,
+        sgst: sgstInRupees,
+        cgst: cgstInRupees,
+        igst: igstInRupees,
         totalTax,
         balanceBeforeTax,
         balanceAfterTax,
