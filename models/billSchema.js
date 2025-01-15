@@ -18,6 +18,7 @@ const billSchema = new mongoose.Schema({
   balanceAfterTax: { type: Number, required: true },
   totalTax: { type: Number, required: true },
   balanceBeforeTax: { type: Number, required: true },
+  orderNumber: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Bill", billSchema);
