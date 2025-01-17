@@ -18,9 +18,9 @@ const projectSchema = new mongoose.Schema({
   description: { type: String },
   quantity: { type: Number, required: true },
   rate: { type: Number, required: true },
-  price: { type: Number },
-  total: { type: Number },
-  unbilledQuantity:{ type: Number, required: true}
+  // price: { type: Number },
+  // total: { type: Number },
+  unbilledQuantity: { type: Number, required: true },
 });
 
 const Project = mongoose.model("Project", projectSchema);
