@@ -1,24 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const clearBillModel = require("../models/clearBillModel");
-const Bill = require('../models/billSchema');
+const clearBillModel = require("../models/clearBillModel"); // Adjust the path as per your file structure
 
 // Create a new clearBill
 router.post("/", async (req, res) => {
   try {
     // console.log(req.body);
-    
     const newClearBill = new clearBillModel({ ...req.body });
     await newClearBill.save();
+
     res.status(201).json({
       message: "ClearBill created successfully",
       clearBill: newClearBill,
     });
   } catch (error) {
     console.error("Error creating ClearBill:", error);
-    res
-      .status(500)
-      .json({ message: "Error creating bill", error: error.message });
+    res.status(500).json({
+      message: "An error occurred while creating ClearBill",
+      error: error.message,
+    });
   }
 });
 

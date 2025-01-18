@@ -20,13 +20,10 @@ function generateOrderNumber() {
 router.post("/projects", async (req, res) => {
   try {
     const orderNumber = generateOrderNumber();
-    // console.log("Request Body:", req.body);
 
-    // const project = new Project(req.body);
-    // console.log("New Project:", project);
     const project = new Project({
       orderNumber: orderNumber,
-      ...req.body, // other project data
+      ...req.body,
     });
 
     await project.save();
