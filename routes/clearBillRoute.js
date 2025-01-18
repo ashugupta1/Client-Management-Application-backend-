@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const clearBillModel = require("../models/clearBillModel"); // Adjust the path as per your file structure
+const clearBillModel = require("../models/clearBillModel");
+const Bill = require('../models/billSchema');
 
 // Create a new clearBill
 router.post("/", async (req, res) => {
   try {
     // console.log(req.body);
+    
     const newClearBill = new clearBillModel({ ...req.body });
     await newClearBill.save();
     res.status(201).json({
