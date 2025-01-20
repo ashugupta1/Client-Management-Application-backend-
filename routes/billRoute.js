@@ -265,6 +265,27 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+router.get("/:orderNumber", async (req, res) => {
+  try {
+    const { orderNumber } = req.params;
+    console.log("Received order number:", orderNumber); // Log it to verify it's captured correctly
+
+    // Find the bill using the orderNumber in the database
+    const bill = await Bill.findOne({ orderNumber });
+
+    if (!bill) {
+      return res.status(404).json({ message: "Bill not found" });
+    }
+
+    res.status(200).json({ message: "Bill fetched successfully", bill });
+  } catch (error) {
+    console.error("Error fetching bill:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching bill", error: error.message });
+  }
+});
+
 // Delete a bill by ID
 router.delete("/:id", async (req, res) => {
   try {
