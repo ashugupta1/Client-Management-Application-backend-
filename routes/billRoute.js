@@ -90,6 +90,8 @@ router.post("/", async (req, res) => {
       projectName,
     } = req.body;
 
+    // console.log(req.body);
+
     const billedQuantityinNum = Number(billedQuantity);
 
     const totalAmount = rate * billedQuantityinNum;
