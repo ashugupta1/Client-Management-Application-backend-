@@ -14,38 +14,52 @@ const getAllExpenses = async (req, res) => {
 
 // Add expense
 const addExpense = async (req, res) => {
-  // Validate request body
-  const {
-    User,
-    Date,
-    ProjectName,
-    Expenses,
-    Ammount,
-    MOP,
-    ReferenceId,
-    File,
-    Remark,
-  } = req.body;
-
-  if (
-    !User ||
-    !Date ||
-    !ProjectName ||
-    !Expenses ||
-    !Ammount ||
-    !MOP ||
-    !ReferenceId
-  ) {
-    return res.status(400).json({
-      message:
-        "Missing required fields: User, Date, ProjectName, Expenses, Ammount, MOP, ReferenceId",
-    });
-  }
-
   try {
-    console.log(req.body);
-    const newExpense = new expenseModel({ ...req.body });
-    // console.log("Creating new expense:", newExpense);
+    const {
+      User,
+      Date,
+      ProjectName,
+      Expenses,
+      Ammount,
+      MOP,
+      ReferenceId,
+      Remark,
+    } = req.body;
+
+    console.log("req.body ", req.body);
+    console.log("req.file ", req.body.File);
+
+    // Check for required fields
+    if (!User || !Date || !ProjectName || !Expenses || !Ammount || !MOP) {
+      return res.status(400).json({
+        message:
+          "Missing required fields: User, Date, ProjectName, Expenses, Ammount, MOP",
+      });
+    }
+
+    // File upload details
+    const fileDetails = req.File
+      ? {
+          fileName: req.file.originalname,
+          fileType: req.file.mimetype,
+          filePath: req.file.path,
+        }
+      : null;
+
+    console.log(req.file);
+
+    const newExpense = new expenseModel({
+      User,
+      Date,
+      ProjectName,
+      Expenses,
+      Ammount,
+      MOP,
+      ReferenceId,
+      Remark,
+      File: fileDetails,
+    });
+
     await newExpense.save();
     res.status(201).json({
       message: "Expense created successfully",

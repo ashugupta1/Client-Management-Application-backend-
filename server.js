@@ -16,6 +16,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const port = 3000;
 
+app.use("/uploads", express.static("uploads"));
+app.use(express.urlencoded({ extended: true }));
+
+
 connectDB();
 
 app.use("/api/bills", billRoute);

@@ -1,4 +1,6 @@
 const express = require("express");
+const upload = require("../middlewares/upload");
+
 const {
   getAllExpenses,
   addExpense,
@@ -10,7 +12,7 @@ const router = express.Router();
 
 router.get("/expense", getAllExpenses);
 
-router.post("/expense", addExpense);
+router.post("/expense", upload.single("File"), addExpense);
 
 router.put("/expense/:id", updateExpense);
 

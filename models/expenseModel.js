@@ -43,9 +43,20 @@ const expenseSchema = new mongoose.Schema({
   },
 
   File: {
-    type: String,
-    // required : true,
-    trim: true,
+    fileName: {
+      type: String,
+      required: false,
+      trim: true,
+    },
+    fileType: {
+      type: String,
+      required: false,
+      default: "application/pdf",
+    },
+    filePath: {
+      type: String,
+      required: false,
+    },
   },
 
   Remark: {
